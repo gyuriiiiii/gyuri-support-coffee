@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { generateThankYouMessage } from '../services/geminiService';
 import { sendDonationEmail } from '../services/emailService';
+import { saveDonationToSheets } from '../services/sheetsService';
+import { saveDonationToLocal } from '../services/localStorageService';
 
 interface DonationModalProps {
   isOpen: boolean;
@@ -36,7 +38,32 @@ export const DonationModal: React.FC<DonationModalProps> = ({ isOpen, onClose })
       const note = await generateThankYouMessage(name, coffeeCount, message);
       setThankYouNote(note);
 
-      // Send email with donation info to creator automatically
+      // 후원 데이터 준비
+      const donationData = {
+        donorName: name,
+        donorEmail: email,
+        coffeeCount,
+        message
+      };
+
+      // 1. 로컬 스토리지에 저장 (항상 성공)
+      const localSaved = saveDonationToLocal(donationData);
+      if (localSaved) {
+        console.log('✅ 로컬 스토리지에 저장 완료!');
+      }
+
+      // 2. Google Sheets에 저장 (백업)
+      saveDonationToSheets(donationData).then(sheetsSaved => {
+        if (sheetsSaved) {
+          console.log('✅ Google Sheets에 저장 완료!');
+        } else {
+          console.warn('⚠️ Google Sheets 저장 실패 (로컬에는 저장됨)');
+        }
+      }).catch(err => {
+        console.warn('⚠️ Google Sheets 저장 중 오류:', err);
+      });
+
+      // 3. 이메일 전송 시도 (선택적)
       const emailSent = await sendDonationEmail({
         creatorEmail: CREATOR_EMAIL,
         donorName: name,
@@ -48,7 +75,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({ isOpen, onClose })
       if (emailSent) {
         console.log('✅ 후원 이메일이 성공적으로 전송되었습니다!');
       } else {
-        console.warn('⚠️ 이메일 전송에 실패했지만 후원은 완료되었습니다.');
+        console.warn('⚠️ 이메일 전송에 실패했지만 후원 정보는 저장되었습니다.');
       }
 
       setStep('success');
