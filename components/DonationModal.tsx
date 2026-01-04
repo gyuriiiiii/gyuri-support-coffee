@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { generateThankYouMessage } from '../services/geminiService';
+import { sendDonationEmail } from '../services/emailService';
 
 interface DonationModalProps {
   isOpen: boolean;
@@ -27,50 +28,35 @@ export const DonationModal: React.FC<DonationModalProps> = ({ isOpen, onClose })
 
     setStep('processing');
 
-    // Simulate payment delay
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    try {
+      // Simulate payment delay
+      await new Promise(resolve => setTimeout(resolve, 1500));
 
-    // Generate AI response
-    const note = await generateThankYouMessage(name, coffeeCount, message);
-    setThankYouNote(note);
+      // Generate AI response
+      const note = await generateThankYouMessage(name, coffeeCount, message);
+      setThankYouNote(note);
 
-    // Send email with donation info to creator
-    sendDonationEmail();
+      // Send email with donation info to creator automatically
+      const emailSent = await sendDonationEmail({
+        creatorEmail: CREATOR_EMAIL,
+        donorName: name,
+        donorEmail: email,
+        coffeeCount,
+        message
+      });
 
-    setStep('success');
-  };
+      if (emailSent) {
+        console.log('✅ 후원 이메일이 성공적으로 전송되었습니다!');
+      } else {
+        console.warn('⚠️ 이메일 전송에 실패했지만 후원은 완료되었습니다.');
+      }
 
-  const sendDonationEmail = () => {
-    const subject = encodeURIComponent(`[커피 후원] ${name}님이 ${coffeeCount}잔의 커피를 후원했어요! ☕️`);
-    const totalAmount = coffeeCount * 5000;
-    const currentDate = new Date().toLocaleString('ko-KR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-
-    const body = encodeURIComponent(
-      `새로운 커피 후원이 도착했습니다!\n\n` +
-      `━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
-      `📅 후원 일시\n` +
-      `${currentDate}\n\n` +
-      `👤 후원자 정보\n` +
-      `이름: ${name}\n` +
-      (email ? `이메일: ${email}\n` : '') +
-      `\n☕️ 후원 내역\n` +
-      `커피 잔 수: ${coffeeCount}잔\n` +
-      `후원 금액: ${totalAmount.toLocaleString()}원\n\n` +
-      `💌 응원 메시지\n` +
-      `${message || '(메시지 없음)'}\n\n` +
-      `━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
-      `이 메일은 "규리에게 커피 사주기" 페이지에서 자동으로 생성되었습니다.\n` +
-      `후원자에게 감사 인사를 전해보세요! 😊`
-    );
-
-    // Open email client with pre-filled content sent to creator
-    window.location.href = `mailto:${CREATOR_EMAIL}?subject=${subject}&body=${body}`;
+      setStep('success');
+    } catch (error) {
+      console.error('❌ 후원 처리 중 오류 발생:', error);
+      alert('후원 처리 중 문제가 발생했습니다. 다시 시도해주세요.');
+      setStep('input');
+    }
   };
 
   const reset = () => {
