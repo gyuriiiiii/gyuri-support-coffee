@@ -21,7 +21,7 @@ const App: React.FC = () => {
         <header className="flex flex-col items-center space-y-2 mb-8">
           <h1 className="text-5xl md:text-7xl font-black text-gray-900 text-center">규리에게 커피 사주기</h1>
           <p className="text-gray-600 text-sm md:text-base">
-            ICED 아메리카노 한 잔으로 여러분의 응원과 하루를 선물합니다.
+            ICED 아메리카노 한 잔으로 규리를 응원 해 주세요!
           </p>
         </header>
 
