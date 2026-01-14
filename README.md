@@ -1,5 +1,5 @@
 <div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/8a8266aa-2c5e-4632-8046-c5f1d1656d71" />
+<img width="907" height="980" alt="스크린샷 2026-01-14 오후 8 09 05" src="https://github.com/user-attachments/assets/b35bc7d4-a5b5-44bf-b07d-2d3bfca57339" />
 <img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/900db2d5-e19a-494a-be97-f0e43bc39741" />
 </div>
 
@@ -28,6 +28,7 @@ View your app in AI Studio: https://ai.studio/apps/drive/1iWIzGBvDfpA-xOWvnvNElA
    ```
 
 2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+
 
 3. (선택) Google Sheets 연동 설정 (아래 가이드 참고)
 
