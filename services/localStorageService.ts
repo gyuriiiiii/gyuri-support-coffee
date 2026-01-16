@@ -22,7 +22,7 @@ export const saveDonationToLocal = (data: {
   message?: string;
 }): boolean => {
   try {
-    const totalAmount = data.coffeeCount * 5000;
+    const totalAmount = data.coffeeCount * 4500;
     const timestamp = new Date().toISOString();
 
     const record: DonationRecord = {
