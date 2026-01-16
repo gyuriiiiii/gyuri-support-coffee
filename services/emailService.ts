@@ -21,7 +21,7 @@ export const sendDonationEmail = async ({
   message
 }: DonationEmailParams): Promise<boolean> => {
   try {
-    const totalAmount = coffeeCount * 5000;
+    const totalAmount = coffeeCount * 4500;
     const currentDate = new Date().toLocaleString('ko-KR', {
       year: 'numeric',
       month: 'long',

@@ -17,7 +17,7 @@ export const saveDonationToSheets = async (data: {
   }
 
   try {
-    const cost = data.coffeeCount * 5000;
+    const cost = data.coffeeCount * 4500;
     const date = new Date().toLocaleString('ko-KR');
 
     const record = {
