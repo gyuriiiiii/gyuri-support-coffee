@@ -21,6 +21,6 @@ export const generateThankYouMessage = async (name: string, coffeeCount: number,
     return response.text || "정말 감사합니다! 맛있게 마실게요! ☕️💖";
   } catch (error) {
     console.error("Gemini API Error:", error);
-    return "커피 정말 감사합니다! 규리가 감동받았어요! ☕️❤️";
+    return "커피 정말 감사합니다! 감동받았어요! ☕️❤️";
   }
 };

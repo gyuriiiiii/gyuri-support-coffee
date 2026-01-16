@@ -10,7 +10,7 @@ interface DonationRecord {
 }
 
 // Google Apps Script Web App URL (나중에 설정)
-const SHEETS_WEB_APP_URL = import.meta.env.VITE_SHEETS_WEB_APP_URL || '';
+const SHEETS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzhB23Aczpu40M9LWiorr2cYONPAiA-griOvejc6vthhA98BX2e6Ed37o096uQVRKBB/exec';
 
 /**
  * Google Sheets에 후원 정보를 저장합니다
