@@ -10,7 +10,7 @@ interface DonationRecord {
 }
 
 // Google Apps Script Web App URL (나중에 설정)
-const SHEETS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzhB23Aczpu40M9LWiorr2cYONPAiA-griOvejc6vthhA98BX2e6Ed37o096uQVRKBB/exec';
+const SHEETS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxTIQXHQoYvLD3ypkSxe153fYPM3EvRLCu-Ri49DKFVX7KRB8cIQhLZGMqQarLRsB2Y/exec';
 
 /**
  * Google Sheets에 후원 정보를 저장합니다
@@ -21,46 +21,42 @@ export const saveDonationToSheets = async (data: {
   coffeeCount: number;
   message?: string;
 }): Promise<boolean> => {
-  // Google Sheets API가 설정되지 않은 경우
+  // 환경변수 확인 (SHEETS_WEB_APP_URL)
   if (!SHEETS_WEB_APP_URL) {
     console.warn('⚠️ Google Sheets Web App URL이 설정되지 않았습니다.');
     return false;
   }
 
   try {
-    const totalAmount = data.coffeeCount * 5000;
-    const timestamp = new Date().toLocaleString('ko-KR', {
+    const cost = data.coffeeCount * 5000;
+    const date = new Date().toLocaleString('ko-KR', {
       year: 'numeric',
       month: '2-digit',
       day: '2-digit',
       hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit'
+      minute: '2-digit'
     });
 
-    const record: DonationRecord = {
-      timestamp,
-      donorName: data.donorName,
-      donorEmail: data.donorEmail || '미제공',
-      coffeeCount: data.coffeeCount,
-      totalAmount,
+    // 시트의 헤더 순서와 이름에 맞춘 데이터 구성
+    const record = {
+      date: date,
+      name: data.donorName,
+      email: data.donorEmail || '미제공',
+      coffee: data.coffeeCount,
+      cost: cost,
       message: data.message || '(메시지 없음)'
     };
 
-    // Google Apps Script Web App으로 POST 요청
     const response = await fetch(SHEETS_WEB_APP_URL, {
       method: 'POST',
-      mode: 'no-cors', // Google Apps Script는 CORS를 지원하지 않으므로
+      mode: 'no-cors', // Apps Script로 보낼 때 필수 설정
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(record)
     });
 
-    // no-cors 모드에서는 응답을 읽을 수 없지만, 요청은 전송됨
-    console.log('✅ Google Sheets에 저장 요청 완료!');
     return true;
-
   } catch (error) {
     console.error('❌ Google Sheets 저장 중 오류:', error);
     return false;
