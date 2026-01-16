@@ -1,19 +1,5 @@
-// Google Sheets API를 사용하여 후원 정보를 저장하는 서비스
-
-interface DonationRecord {
-  timestamp: string;
-  donorName: string;
-  donorEmail: string;
-  coffeeCount: number;
-  totalAmount: number;
-  message: string;
-}
-
-// Google Apps Script Web App URL (나중에 설정)
-const SHEETS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxTIQXHQoYvLD3ypkSxe153fYPM3EvRLCu-Ri49DKFVX7KRB8cIQhLZGMqQarLRsB2Y/exec';
-
 /**
- * Google Sheets에 후원 정보를 저장합니다
+ * Google Sheets에 후원 정보를 저장합니다.
  */
 export const saveDonationToSheets = async (data: {
   donorName: string;
@@ -21,11 +7,12 @@ export const saveDonationToSheets = async (data: {
   coffeeCount: number;
   message?: string;
 }): Promise<boolean> => {
-  // 1. 함수 호출 확인
-  console.log('🔵 함수 호출됨! 전달 데이터:', data);
+  
+  // 🔴 중요: 아래 따옴표 안에 본인의 구글 웹 앱 URL(https://script.google.com/...)을 정확히 넣으세요.
+  const SHEETS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxTIQXHQoYvLD3ypkSxe153fYPM3EvRLCu-Ri49DKFVX7KRB8cIQhLZGMqQarLRsB2Y/exec';
 
-  if (!SHEETS_WEB_APP_URL) {
-    console.warn('⚠️ URL이 설정되지 않았습니다.');
+  if (!SHEETS_WEB_APP_URL || SHEETS_WEB_APP_URL.includes('여기에')) {
+    console.error('❌ Google Sheets URL이 올바르지 않습니다. URL을 확인해주세요.');
     return false;
   }
 
@@ -38,25 +25,25 @@ export const saveDonationToSheets = async (data: {
       name: data.donorName,
       email: data.donorEmail || '미제공',
       coffee: data.coffeeCount,
-      cost: cost,
+      cost,
       message: data.message || '(메시지 없음)'
     };
 
-    // 2. 전송 직전 로그
-    console.log('🚀 구글로 보낼 최종 데이터:', record);
+    console.log('🚀 데이터 전송 시작:', record);
 
-    const response = await fetch(SHEETS_WEB_APP_URL, {
+    // 구글 앱스 스크립트로 데이터 전송
+    await fetch(SHEETS_WEB_APP_URL, {
       method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
+      mode: 'no-cors', 
+      cache: 'no-cache',
       body: JSON.stringify(record)
     });
 
-    console.log('✅ 전송 요청 완료');
+    console.log('✅ 구글 시트 전송 요청이 완료되었습니다.');
     return true;
 
   } catch (error) {
-    console.error('❌ 저장 에러:', error);
+    console.error('❌ Google Sheets 저장 실패:', error);
     return false;
   }
 };
