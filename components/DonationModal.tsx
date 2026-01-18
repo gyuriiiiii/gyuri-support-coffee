@@ -10,7 +10,7 @@ interface DonationModalProps {
 }
 
 export const DonationModal: React.FC<DonationModalProps> = ({ isOpen, onClose }) => {
-  const [step, setStep] = useState<'input' | 'processing' | 'success'>('input');
+  const [step, setStep] = useState<'qr' | 'input' | 'processing' | 'success'>('qr');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [coffeeCount, setCoffeeCount] = useState(1);
@@ -19,6 +19,9 @@ export const DonationModal: React.FC<DonationModalProps> = ({ isOpen, onClose })
 
   // Creator's email address
   const CREATOR_EMAIL = 'minyul0804@gmail.com';
+
+  // QR 코드 이미지
+  const qrCodeImg = new URL('../components/image copy.png', import.meta.url).href;
 
   if (!isOpen) return null;
 
@@ -87,7 +90,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({ isOpen, onClose })
   };
 
   const reset = () => {
-    setStep('input');
+    setStep('qr');
     setName('');
     setEmail('');
     setMessage('');
@@ -99,16 +102,16 @@ export const DonationModal: React.FC<DonationModalProps> = ({ isOpen, onClose })
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
       {/* Backdrop */}
-      <div 
-        className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity" 
+      <div
+        className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity"
         onClick={onClose}
       />
 
       {/* Modal Content - Light Theme */}
       <div className="relative w-full max-w-md bg-white border border-gray-100 rounded-2xl shadow-2xl p-6 text-gray-900 overflow-hidden animate-fade-in">
-        
+
         {/* Close Button */}
-        <button 
+        <button
           onClick={onClose}
           className="absolute top-4 right-4 text-gray-400 hover:text-gray-900 transition-colors"
         >
@@ -117,11 +120,46 @@ export const DonationModal: React.FC<DonationModalProps> = ({ isOpen, onClose })
           </svg>
         </button>
 
-        {step === 'input' && (
+        {step === 'qr' && (
           <div className="space-y-6">
             <div className="text-center">
               <h2 className="text-2xl font-black mb-2 text-gray-900">커피 후원하기 ☕️</h2>
-              <p className="text-gray-500 text-sm">규리에게 시원한 아이스 커피 한 잔을 선물하세요.</p>
+              <p className="text-gray-500 text-sm"></p>
+            </div>
+
+            {/* QR Code Image */}
+            <div className="flex justify-center">
+              <div className="bg-white p-1 rounded-xl shadow-lg">
+                <img
+                  src={qrCodeImg}
+                  alt="카카오페이 QR 코드"
+                  className="w-72 h-72 object-contain"
+                />
+              </div>
+            </div>
+
+            <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
+              <p className="text-sm text-gray-700 text-center">
+                <span className="font-bold">4,500원으로 행복을 선물 해 주세요 !</span><br/>
+                후원 후 아래 버튼을 눌러 메시지를 남겨주세요!
+              </p>
+            </div>
+
+            <button
+              onClick={() => setStep('input')}
+              className="w-full bg-gradient-to-r from-amber-600 to-orange-700 hover:from-amber-500 hover:to-orange-600 text-white font-bold py-4 rounded-xl shadow-lg transform transition-all active:scale-95 flex items-center justify-center gap-2 group"
+            >
+              <span>후원 완료 & 메시지 남기기</span>
+              <span className="group-hover:translate-x-1 transition-transform">→</span>
+            </button>
+          </div>
+        )}
+
+        {step === 'input' && (
+          <div className="space-y-6">
+            <div className="text-center">
+              <h2 className="text-2xl font-black mb-2 text-gray-900">메시지 남기기 💌</h2>
+              <p className="text-gray-500 text-sm">후원해주셔서 감사합니다! 메시지를 남겨주세요.</p>
             </div>
 
             <div className="space-y-4">
@@ -151,27 +189,8 @@ export const DonationModal: React.FC<DonationModalProps> = ({ isOpen, onClose })
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-700 mb-2">커피 몇 잔?</label>
-                <div className="flex gap-2">
-                  {[1, 3, 5].map((count) => (
-                    <button
-                      key={count}
-                      onClick={() => setCoffeeCount(count)}
-                      className={`flex-1 py-3 rounded-lg border font-medium transition-all ${
-                        coffeeCount === count 
-                          ? 'bg-amber-500 border-amber-600 text-white shadow-md' 
-                          : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50'
-                      }`}
-                    >
-                      {count}잔 ☕️
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div>
                 <label className="block text-sm font-bold text-gray-700 mb-1">응원 메시지</label>
-                <textarea 
+                <textarea
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:bg-white transition-all resize-none h-24"
@@ -180,13 +199,20 @@ export const DonationModal: React.FC<DonationModalProps> = ({ isOpen, onClose })
               </div>
             </div>
 
-            <button 
-              onClick={handleDonate}
-              className="w-full bg-gradient-to-r from-amber-600 to-orange-700 hover:from-amber-500 hover:to-orange-600 text-white font-bold py-4 rounded-xl shadow-lg transform transition-all active:scale-95 flex items-center justify-center gap-2 group"
-            >
-              <span>후원하기</span>
-              <span className="group-hover:translate-x-1 transition-transform">→</span>
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setStep('qr')}
+                className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-4 rounded-xl transition-all"
+              >
+                ← 뒤로
+              </button>
+              <button
+                onClick={handleDonate}
+                className="flex-1 bg-gradient-to-r from-amber-600 to-orange-700 hover:from-amber-500 hover:to-orange-600 text-white font-bold py-4 rounded-xl shadow-lg transform transition-all active:scale-95"
+              >
+                완료
+              </button>
+            </div>
           </div>
         )}
 
