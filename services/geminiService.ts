@@ -5,7 +5,7 @@ const ai = new GoogleGenAI({ apiKey });
 
 export const generateThankYouMessage = async (name: string, coffeeCount: number, message: string): Promise<string> => {
   if (!apiKey) {
-    return "API Key가 설정되지 않았습니다. 하지만 규리가 마음만은 잘 받았다고 전해달래요! ☕️";
+    return "정말 감사합니다! 덕분에 규리가 오늘 하루를 행복하게 보낼 수 있겠어요! ☕️";
   }
 
   try {

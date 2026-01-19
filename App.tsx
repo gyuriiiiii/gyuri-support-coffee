@@ -32,7 +32,7 @@ const App: React.FC = () => {
             <img
               src={coffeeImg}
               alt="Iced Coffee"
-              className="relative w-72 h-72 md:w-80 md:h-80 object-contain drop-shadow-2xl transition-transform duration-500 hover:scale-105 z-10 animate-wiggle"
+              className="relative w-90 h-90 md:w-80 md:h-90 object-contain drop-shadow-4xl transition-transform duration-500 hover:scale-105 z-10 animate-wiggle"
             />
           </div>
         </div>
@@ -41,7 +41,7 @@ const App: React.FC = () => {
         <div className="w-full max-w-xl space-y-4 mb-8">
           <button
             onClick={() => setIsModalOpen(true)}
-            className="group w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-2xl p-6 shadow-2xl transition-all duration-300 hover:shadow-3xl flex items-center justify-between"
+            className="group w-full bg-gradient-to-r from-orange-400 to-orange-400 hover:from-orange-500 hover:to-orange-600 text-white rounded-2xl p-6 shadow-2xl transition-all duration-300 hover:shadow-3xl flex items-center justify-between"
           >
             <div className="flex items-center space-x-4">
               <div className="bg-white/20 p-3 rounded-xl">

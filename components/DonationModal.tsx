@@ -229,7 +229,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({ isOpen, onClose })
               <div className="absolute inset-0 border-4 border-t-amber-500 rounded-full animate-spin"></div>
             </div>
             <div>
-              <h3 className="text-xl font-bold text-gray-900">결제 처리 중...</h3>
+              <h3 className="text-xl font-bold text-gray-900"> 커피 배달중...</h3>
               <p className="text-gray-500 text-sm mt-1">규리에게 커피를 배달하고 있어요!</p>
             </div>
           </div>
