@@ -129,13 +129,18 @@ export const DonationModal: React.FC<DonationModalProps> = ({ isOpen, onClose })
 
             {/* QR Code Image */}
             <div className="flex justify-center">
-              <div className="bg-white p-1 rounded-xl shadow-lg">
+              <a
+                href="https://qr.kakaopay.com/FRY7rH8UR"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white p-1 rounded-xl shadow-lg hover:shadow-xl transition-shadow cursor-pointer"
+              >
                 <img
                   src={qrCodeImg}
                   alt="카카오페이 QR 코드"
                   className="w-72 h-72 object-contain"
                 />
-              </div>
+              </a>
             </div>
 
             <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
