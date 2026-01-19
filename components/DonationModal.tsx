@@ -146,6 +146,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({ isOpen, onClose })
             <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
               <p className="text-sm text-gray-700 text-center">
                 <span className="font-bold">4,500원으로 행복을 선물 해 주세요 !</span><br/>
+                모바일로 접속 시, QR코드를 터치하시면 이동할 수 있어요 !<br />
                 후원 후 아래 버튼을 눌러 메시지를 남겨주세요!
               </p>
             </div>
