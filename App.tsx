@@ -8,8 +8,8 @@ const App: React.FC = () => {
   const coffeeImg = new URL('./coffee.png', import.meta.url).href;
 
   return (
-    <div className="relative w-full h-screen overflow-hidden bg-gray-50 text-gray-900">
-      <div className="relative z-10 w-full h-full flex flex-col items-center py-8 px-6">
+    <div className="relative w-full min-h-screen bg-gray-50 text-gray-900">
+      <div className="relative z-10 w-full min-h-screen flex flex-col items-center py-8 px-6">
         {/* Top Badge */}
         <div className="mb-6">
           <div className="bg-amber-100 text-amber-800 px-6 py-2 rounded-full text-sm font-semibold tracking-wide">
@@ -26,7 +26,7 @@ const App: React.FC = () => {
         </header>
 
         {/* Coffee Image Container */}
-        <div className="flex-grow flex items-center justify-center my-8">
+        <div className="flex-grow flex items-center justify-center my-4 max-h-[50vh]">
           <div className="relative flex items-center justify-center">
             <div className="absolute w-80 h-80 md:w-96 md:h-96 bg-amber-100/30 blur-[80px] rounded-full" />
             <img
@@ -41,7 +41,7 @@ const App: React.FC = () => {
         <div className="w-full max-w-xl space-y-4 mb-8">
           <button
             onClick={() => setIsModalOpen(true)}
-            className="group w-full bg-gradient-to-r from-orange-400 to-orange-400 hover:from-orange-500 hover:to-orange-600 text-white rounded-2xl p-6 shadow-2xl transition-all duration-300 hover:shadow-3xl flex items-center justify-between"
+            className="group w-full bg-gradient-to-r from-orange-300 to-orange-400 hover:from-orange-400 hover:to-orange-500 text-white rounded-2xl p-6 shadow-2xl transition-all duration-300 hover:shadow-3xl flex items-center justify-between"
           >
             <div className="flex items-center space-x-4">
               <div className="bg-white/20 p-3 rounded-xl">
